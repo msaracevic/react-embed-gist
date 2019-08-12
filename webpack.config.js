@@ -16,7 +16,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           cacheDirectory: true,
-          presets: ['react', 'es2015']
+          presets: ['@babel/react', '@babel/env']
         }
       }
     ]
