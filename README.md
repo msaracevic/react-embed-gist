@@ -19,6 +19,7 @@ import ReactEmbedGist from 'react-embed-gist';
                 wrapperClass="gist__bash"
                 loadingClass="loading__screen"
                 titleClass="gist__title"
+                contentClass="gist__content"
                 file=".bash_profile.sh"/>
 ```
 
@@ -26,6 +27,7 @@ import ReactEmbedGist from 'react-embed-gist';
 
 * `gist` - gist you want to display, in a form of :USERNAME/:GIST_ID
 * `file` - *optional*, if you want to show just a single file from the gist, you can specify it here
-* `titleClass` - *optional*, if you want to pass your own class to `h2` title of the gist
 * `wrapperClass` - *optional*, if you want to pass your own class to `article` wrapping the gist
+* `titleClass` - *optional*, if you want to pass your own class to `h2` title of the gist
+* `contentClass` - *optional*, if you want to pass your own class to `section` wrapping the content
 * `loadingClass` - *optional*, if you want to pass your own class to `article` wrapper which is displayed during loading time
