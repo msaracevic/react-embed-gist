@@ -9,6 +9,8 @@ export default class ReactEmbedGist extends Component {
       title:   '',
       content: ''
     };
+
+    this.handleNetworkErrors = this.handleNetworkErrors.bind(this);
   }
 
   componentDidMount() {
@@ -19,7 +21,7 @@ export default class ReactEmbedGist extends Component {
     if (prevProps.gist !== this.props.gist) this.getGist();
   }
 
-  getGist() {
+  async getGist() {
     /*
      * Load gist from github and attach callback to be executed once this script finishes loading
      * The callbacks are going to be named as gist_callback_:ID where ID is the hash of the gist
@@ -27,8 +29,9 @@ export default class ReactEmbedGist extends Component {
     const {gist, file} = this.props,
           id           = gist.split('/')[1];
 
-    if (!id) throw new Error('Invalid gist paramater provided');
+    if (!id) return this.setState({loading: false, error: `${gist} is not valid format`});
 
+    await this.setState({loading: true});
     this.setupCallback(id);
 
     const script = document.createElement('script');
@@ -36,7 +39,19 @@ export default class ReactEmbedGist extends Component {
     if (file) url += `&file=${file}`;
     script.type = 'text/javascript';
     script.src = url;
+    script.onerror = (e) => this.handleNetworkErrors(e);
     document.head.appendChild(script);
+  }
+
+  handleNetworkErrors(e) {
+    /*
+     * Unfortunately there is no clean / easy way to track if this is 404 or something else, so in that case
+     * just say it failed to load regardless of reason
+     */
+    this.setState({
+      loading: false,
+      error:   `${this.props.gist} failed to load`
+    });
   }
 
   setupCallback(id) {
@@ -45,11 +60,14 @@ export default class ReactEmbedGist extends Component {
        * Once we call this callback, we are going to set description of gist as title and fill the content. We are
        * also going to set loading flag into false to render the content
        */
-      this.setState({
-        loading: false,
-        title:   gist.description,
-        content: `${gist.div.replace(/href=/g, 'target="_blank" href=')}`
-      });
+      const nextState = {loading: false, error: gist.error || null};
+
+      if (!nextState.error) {
+        nextState.title = gist.description;
+        nextState.content = `${gist.div.replace(/href=/g, 'target="_blank" href=')}`
+      }
+
+      this.setState(nextState);
 
       /*
        * Not perfect way to do things, ideally parent component would have state of all loaded stylesheets
@@ -72,10 +90,14 @@ export default class ReactEmbedGist extends Component {
   }
 
   render() {
-    const {loadingClass, wrapperClass, titleClass, contentClass} = this.props;
+    const {loadingClass, wrapperClass, titleClass, contentClass, errorClass} = this.props;
 
     if (this.state.loading) {
       return <article className={loadingClass}>Loading...</article>
+    } else if (this.state.error) {
+      return <article className={errorClass}>
+        {this.state.error}
+      </article>
     } else {
       return <article className={wrapperClass}>
         <h2 className={titleClass}>{this.state.title}</h2>
@@ -92,6 +114,7 @@ export default class ReactEmbedGist extends Component {
  *                   wrapperClass="gist__bash"
  *                   loadingClass="loading__screen"
  *                   titleClass="gist__title"
+ *                   errorClass="gist__error"
  *                   contentClass="gist__content"
  *                   file=".bash_profile.sh"/>
  */

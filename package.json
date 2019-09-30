@@ -1,6 +1,6 @@
 {
   "name": "react-embed-gist",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Simple react component which can embed gist in your react application",
   "main": "main.js",
   "scripts": {

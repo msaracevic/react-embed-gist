@@ -20,6 +20,7 @@ import ReactEmbedGist from 'react-embed-gist';
                 loadingClass="loading__screen"
                 titleClass="gist__title"
                 contentClass="gist__content"
+                errorClass="gist__error"
                 file=".bash_profile.sh"/>
 ```
 
@@ -30,4 +31,5 @@ import ReactEmbedGist from 'react-embed-gist';
 * `wrapperClass` - *optional*, if you want to pass your own class to `article` wrapping the gist
 * `titleClass` - *optional*, if you want to pass your own class to `h2` title of the gist
 * `contentClass` - *optional*, if you want to pass your own class to `section` wrapping the content
+* `errorClass` - *optional*, if you want to pass your own class to `article` wrapping the error message
 * `loadingClass` - *optional*, if you want to pass your own class to `article` wrapper which is displayed during loading time
