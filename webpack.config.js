@@ -1,5 +1,6 @@
 module.exports = {
   entry: './src/ReactEmbedGist.js',
+  mode: 'production',
   output: {
     path: __dirname,
     filename: 'main.js',
@@ -14,7 +15,7 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
+        options: {
           cacheDirectory: true,
           presets: ['@babel/react', '@babel/env']
         }
