@@ -15,13 +15,16 @@ Just import as dependency in your file and pass gist as parameter, for example:
 import ReactEmbedGist from 'react-embed-gist';
 
 // Only required attribute is gist
-<ReactEmbedGist gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
-                wrapperClass="gist__bash"
-                loadingClass="loading__screen"
-                titleClass="gist__title"
-                contentClass="gist__content"
-                errorClass="gist__error"
-                file=".bash_profile.sh"/>
+  <ReactEmbedGist
+     gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
+     wrapperClass="gist__bash"
+     loadingClass="loading__screen"
+     titleClass="gist__title"
+     errorClass="gist__error"
+     contentClass="gist__content"
+     file=".bash_profile.sh"
+     loadingFallback={<Loading />}
+   />
 ```
 
 ## Attributes
@@ -33,3 +36,4 @@ import ReactEmbedGist from 'react-embed-gist';
 * `contentClass` - *optional*, if you want to pass your own class to `section` wrapping the content
 * `errorClass` - *optional*, if you want to pass your own class to `article` wrapping the error message
 * `loadingClass` - *optional*, if you want to pass your own class to `article` wrapper which is displayed during loading time
+* `loadingFallback` - *optional*, if you want to pass custom loading component which is displayed during loading time
