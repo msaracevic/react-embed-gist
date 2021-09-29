@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
 export default class ReactEmbedGist extends Component {
   constructor(props) {
@@ -6,8 +6,8 @@ export default class ReactEmbedGist extends Component {
 
     this.state = {
       loading: true,
-      title:   '',
-      content: ''
+      title: "",
+      content: "",
     };
 
     this.handleNetworkErrors = this.handleNetworkErrors.bind(this);
@@ -26,18 +26,22 @@ export default class ReactEmbedGist extends Component {
      * Load gist from github and attach callback to be executed once this script finishes loading
      * The callbacks are going to be named as gist_callback_:ID where ID is the hash of the gist
      */
-    const {gist, file} = this.props,
-          id           = gist.split('/')[1];
+    const { gist, file } = this.props,
+      id = gist.split("/")[1];
 
-    if (!id) return this.setState({loading: false, error: `${gist} is not valid format`});
+    if (!id)
+      return this.setState({
+        loading: false,
+        error: `${gist} is not valid format`,
+      });
 
-    await this.setState({loading: true});
+    await this.setState({ loading: true });
     this.setupCallback(id);
 
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     let url = `https://gist.github.com/${gist}.json?callback=gist_callback_${id}`;
     if (file) url += `&file=${file}`;
-    script.type = 'text/javascript';
+    script.type = "text/javascript";
     script.src = url;
     script.onerror = (e) => this.handleNetworkErrors(e);
     document.head.appendChild(script);
@@ -50,7 +54,7 @@ export default class ReactEmbedGist extends Component {
      */
     this.setState({
       loading: false,
-      error:   `${this.props.gist} failed to load`
+      error: `${this.props.gist} failed to load`,
     });
   }
 
@@ -60,11 +64,14 @@ export default class ReactEmbedGist extends Component {
        * Once we call this callback, we are going to set description of gist as title and fill the content. We are
        * also going to set loading flag into false to render the content
        */
-      const nextState = {loading: false, error: gist.error || null};
+      const nextState = { loading: false, error: gist.error || null };
 
       if (!nextState.error) {
         nextState.title = gist.description;
-        nextState.content = `${gist.div.replace(/href=/g, 'target="_blank" href=')}`
+        nextState.content = `${gist.div.replace(
+          /href=/g,
+          'target="_blank" href='
+        )}`;
       }
 
       this.setState(nextState);
@@ -80,9 +87,9 @@ export default class ReactEmbedGist extends Component {
        *       innerHMTL to be sure that we don't have any css loaded twice
        */
       if (document.head.innerHTML.indexOf(gist.stylesheet) === -1) {
-        let stylesheet = document.createElement('link');
-        stylesheet.type = 'text/css';
-        stylesheet.rel = 'stylesheet';
+        let stylesheet = document.createElement("link");
+        stylesheet.type = "text/css";
+        stylesheet.rel = "stylesheet";
         stylesheet.href = gist.stylesheet;
         document.head.appendChild(stylesheet);
       }
@@ -90,19 +97,33 @@ export default class ReactEmbedGist extends Component {
   }
 
   render() {
-    const {loadingClass, wrapperClass, titleClass, contentClass, errorClass} = this.props;
+    const {
+      loadingClass,
+      wrapperClass,
+      titleClass,
+      contentClass,
+      errorClass,
+      loadingFallback,
+    } = this.props;
 
     if (this.state.loading) {
-      return <article className={loadingClass}>Loading...</article>
+      return (
+        <article className={loadingClass}>
+          {loadingFallback ? loadingFallback : "Loading ..."}
+        </article>
+      );
     } else if (this.state.error) {
-      return <article className={errorClass}>
-        {this.state.error}
-      </article>
+      return <article className={errorClass}>{this.state.error}</article>;
     } else {
-      return <article className={wrapperClass}>
-        <h2 className={titleClass}>{this.state.title}</h2>
-        <section className={contentClass} dangerouslySetInnerHTML={{__html: this.state.content}}/>
-      </article>
+      return (
+        <article className={wrapperClass}>
+          <h2 className={titleClass}>{this.state.title}</h2>
+          <section
+            className={contentClass}
+            dangerouslySetInnerHTML={{ __html: this.state.content }}
+          />
+        </article>
+      );
     }
   }
 }
@@ -110,11 +131,14 @@ export default class ReactEmbedGist extends Component {
 /*
  *   Example usage (all but gist parameter are optional):
  *
- *   <ReactEmbedGist gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
- *                   wrapperClass="gist__bash"
- *                   loadingClass="loading__screen"
- *                   titleClass="gist__title"
- *                   errorClass="gist__error"
- *                   contentClass="gist__content"
- *                   file=".bash_profile.sh"/>
+ *   <ReactEmbedGist
+ *      gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
+ *      wrapperClass="gist__bash"
+ *      loadingClass="loading__screen"
+ *      titleClass="gist__title"
+ *      errorClass="gist__error"
+ *      contentClass="gist__content"
+ *      file=".bash_profile.sh"
+ *      loadingFallback={<Loading />}
+ *   />
  */
