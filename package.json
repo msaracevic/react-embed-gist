@@ -1,6 +1,6 @@
 {
   "name": "react-embed-gist",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Simple react component which can embed gist in your react application",
   "main": "main.js",
   "scripts": {
@@ -24,15 +24,15 @@
   },
   "homepage": "https://github.com/msaracevic/react-embed-gist#readme",
   "dependencies": {
-    "react": "^17.0.2"
+    "react": "^18.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/preset-react": "^7.14.5",
-    "babel-loader": "^8.2.2",
-    "webpack": "^5.55.1",
-    "webpack-cli": "^4.8.0"
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.5",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   }
 }
