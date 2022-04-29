@@ -4,7 +4,7 @@ module.exports = {
   output: {
     path: __dirname,
     filename: 'main.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['.js', '.jsx']
