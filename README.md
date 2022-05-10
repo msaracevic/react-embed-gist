@@ -1,8 +1,8 @@
 # React Embed Gist
 
-[![NPM Downloads](https://img.shields.io/npm/dt/react-embed-gist.svg)](https://www.npmjs.com/package/react-embed-gist)
+[![NPM TotalDownloads](https://img.shields.io/npm/dt/react-embed-gist.svg)](https://www.npmjs.com/package/react-embed-gist)
+[![NPM Weekly Downloads](https://img.shields.io/npm/dw/react-embed-gist)](https://www.npmjs.com/package/react-embed-gist)
 [![GitHub license](https://img.shields.io/github/license/msaracevic/react-embed-gist.svg)](https://github.com/msaracevic/react-embed-gist/blob/master/LICENSE)
-![NPM Downloads](https://img.shields.io/npm/dw/react-embed-gist)
 [![GitHub last-commit](https://img.shields.io/github/last-commit/msaracevic/react-embed-gist.svg)](https://github.com/msaracevic/react-embed-gist/)
 [![GitHub issues-raw](https://img.shields.io/github/issues-raw/msaracevic/react-embed-gist.svg)](https://github.com/msaracevic/react-embed-gist/)
 
