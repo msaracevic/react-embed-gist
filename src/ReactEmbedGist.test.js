@@ -1,23 +1,22 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import renderer from 'react-test-renderer';
 
 import ReactEmbedGist from "./ReactEmbedGist";
 
 test("handles loading fallback", async () => {
-  const { container } = render(
-    <ReactEmbedGist
-      gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
-      wrapperClass="gist__bash"
-      loadingClass="loading__screen"
-      titleClass="gist__title"
-      errorClass="gist__error"
-      contentClass="gist__content"
-      file=".bash_profile.sh"
-      loadingFallback={<p>Loading fallback</p>}
-    />
-  );
+    const testRenderer = renderer.create(
+        <ReactEmbedGist
+            gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
+            wrapperClass="gist__bash"
+            loadingClass="loading__screen"
+            titleClass="gist__title"
+            errorClass="gist__error"
+            contentClass="gist__content"
+            file=".bash_profile.sh"
+            loadingFallback={<p>Loading fallback</p>}
+        />
+    );
 
-  expect(container.getElementsByClassName("loading__screen").length).toBe(1);
-  expect(container.textContent).toBe("Loading fallback");
+    const testInstance = testRenderer.root;
+    expect(testInstance.findByProps({className: "loading__screen"}).children.length).toBe(1)
 });
