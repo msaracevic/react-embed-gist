@@ -4,14 +4,7 @@ import { v4 as uuid } from "uuid";
 export default class ReactEmbedGist extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loading: true,
-      title: "",
-      content: "",
-      instanceId: uuid().replace(/-/g, ""),
-    };
-
+    this.state = { loading: true, title: "", content: "" };
     this.handleNetworkErrors = this.handleNetworkErrors.bind(this);
   }
 
@@ -25,23 +18,26 @@ export default class ReactEmbedGist extends Component {
 
   async getGist() {
     /*
-     * Load gist from github and attach callback to be executed once this script finishes loading
-     * The callbacks are going to be named as gist_callback_:ID where ID is the hash of the gist
+     * Load gist from GitHub and attach callback to be executed once this script finishes loading
+     * The callbacks are going to be named as gist_callback_:instanceId where instanceId is random UUID
      */
-    const { gist, file } = this.props,
-      id = gist.split("/")[1];
+    const { gist, file } = this.props;
 
-    if (!id)
+    /*
+     * Check if the response is fine and has ID assigned from Gist
+     */
+    if (!gist.split("/")[1])
       return this.setState({
         loading: false,
         error: `${gist} is not valid format`,
       });
 
+    const instanceId = uuid().replace(/-/g, "");
     await this.setState({ loading: true });
-    this.setupCallback(id);
+    this.setupCallback(instanceId);
 
     const script = document.createElement("script");
-    let url = `https://gist.github.com/${gist}.json?callback=gist_callback_${this.state.instanceId}`;
+    let url = `https://gist.github.com/${gist}.json?callback=gist_callback_${instanceId}`;
     if (file) url += `&file=${file}`;
     script.type = "text/javascript";
     script.src = url;
@@ -60,8 +56,8 @@ export default class ReactEmbedGist extends Component {
     });
   }
 
-  setupCallback(id) {
-    window[`gist_callback_${this.state.instanceId}`] = function (gist) {
+  setupCallback(instanceId) {
+    window[`gist_callback_${instanceId}`] = function (gist) {
       /*
        * Once we call this callback, we are going to set description of gist as title and fill the content. We are
        * also going to set loading flag into false to render the content
@@ -70,10 +66,7 @@ export default class ReactEmbedGist extends Component {
 
       if (!nextState.error) {
         nextState.title = gist.description;
-        nextState.content = `${gist.div.replace(
-          /href=/g,
-          'target="_blank" href='
-        )}`;
+        nextState.content = `${gist.div.replace(/href=/g, 'target="_blank" href=')}`;
       }
 
       this.setState(nextState);
@@ -129,18 +122,3 @@ export default class ReactEmbedGist extends Component {
     }
   }
 }
-
-/*
- *   Example usage (all but gist parameter are optional):
- *
- *   <ReactEmbedGist
- *      gist="msaracevic/5d757e2fc72482a9a4a439969500c2eb"
- *      wrapperClass="gist__bash"
- *      loadingClass="loading__screen"
- *      titleClass="gist__title"
- *      errorClass="gist__error"
- *      contentClass="gist__content"
- *      file=".bash_profile.sh"
- *      loadingFallback={<Loading />}
- *   />
- */
