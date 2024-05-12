@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { v4 as uuid } from "uuid";
 
 export default class ReactEmbedGist extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class ReactEmbedGist extends Component {
       loading: true,
       title: "",
       content: "",
+      instanceId: uuid().replace(/-/g, ""),
     };
 
     this.handleNetworkErrors = this.handleNetworkErrors.bind(this);
@@ -39,7 +41,7 @@ export default class ReactEmbedGist extends Component {
     this.setupCallback(id);
 
     const script = document.createElement("script");
-    let url = `https://gist.github.com/${gist}.json?callback=gist_callback_${id}`;
+    let url = `https://gist.github.com/${gist}.json?callback=gist_callback_${this.state.instanceId}`;
     if (file) url += `&file=${file}`;
     script.type = "text/javascript";
     script.src = url;
@@ -59,7 +61,7 @@ export default class ReactEmbedGist extends Component {
   }
 
   setupCallback(id) {
-    window[`gist_callback_${id}`] = function (gist) {
+    window[`gist_callback_${this.state.instanceId}`] = function (gist) {
       /*
        * Once we call this callback, we are going to set description of gist as title and fill the content. We are
        * also going to set loading flag into false to render the content
