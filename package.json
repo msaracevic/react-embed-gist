@@ -1,6 +1,6 @@
 {
   "name": "react-embed-gist",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Simple react component which can embed gist in your react application",
   "main": "main.js",
   "scripts": {
@@ -37,6 +37,7 @@
   "jest": {
     "testEnvironment": "jsdom"
   },
+  "types": "./index.d.ts",
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/core": "^7.23.9",
