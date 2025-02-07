@@ -8,9 +8,7 @@ export interface Props {
     contentClass?: string;
     errorClass?: string;
     file?: string;
-    loadingFallback?: React.ReactNode;
+    LoadingFallback?: React.ReactNode;
 }
 
-export default class ReactEmbedGist extends React.Component<Props> {
-    render(): React.ReactNode;
-}
+export default function ReactEmbedGist({}: Props): React.ReactNode;

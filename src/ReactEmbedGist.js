@@ -9,7 +9,7 @@ const ReactEmbedGist = ({
   titleClass,
   contentClass,
   errorClass,
-  loadingFallback,
+  LoadingFallback,
 }) => {
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState(null);
@@ -77,13 +77,13 @@ const ReactEmbedGist = ({
   }, [gist, file, getGist]);
 
   if (loading) {
-    return <article className={loadingClass}>{loadingFallback ? loadingFallback : 'Loading ...'}</article>;
+    return <article className={loadingClass}>{LoadingFallback ? <LoadingFallback/> : 'Loading ...'}</article>;
   } else if (error) {
     return <article className={errorClass}>{error}</article>;
-  } else if (title && content) {
+  } else {
     return (
       <article className={wrapperClass}>
-        <h2 className={titleClass}>{title}</h2>
+        {title && <h2 className={titleClass}>{title}</h2>}
         <section className={contentClass} dangerouslySetInnerHTML={{__html: content}}/>
       </article>
     );
