@@ -44,7 +44,8 @@ import ReactEmbedGist from 'react-embed-gist';
 should use `LoadingFallback`
 
 ## Changelog
-* `1.0.28` - Add this readme
+* `1.0.29` - Set LoadingFallback as state to allow `next.js` to actually work for a change...
+* `1.0.28` - Add this changelog
 * `1.0.27` - Update typescript definitions
 * `1.0.26` - Update to React v19, rewrite 7 years old code with `useState` instead of old lifecycle methods
 * `1.0.25` - We pretend this doesn't exist

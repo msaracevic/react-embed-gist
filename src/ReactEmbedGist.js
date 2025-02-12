@@ -15,6 +15,7 @@ const ReactEmbedGist = ({
   const [title, setTitle] = useState(null);
   const [content, setContent] = useState(null);
   const [error, setError] = useState(null);
+  const [LoadingFallbackComponent] = useState(LoadingFallback ? LoadingFallback : <>Loading...</>)
 
   // Unfortunately there is no clean / easy way to track if this is 404 or something else
   // In that case just say it failed to load regardless of reason
@@ -77,7 +78,7 @@ const ReactEmbedGist = ({
   }, [gist, file, getGist]);
 
   if (loading) {
-    return <article className={loadingClass}>{LoadingFallback ? <LoadingFallback/> : 'Loading ...'}</article>;
+    return <article className={loadingClass}>{LoadingFallbackComponent}</article>;
   } else if (error) {
     return <article className={errorClass}>{error}</article>;
   } else {
